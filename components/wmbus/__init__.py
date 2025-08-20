@@ -17,7 +17,12 @@ try:
 except ImportError:  # pragma: no cover - runtime optional dependency
     meter = None
 
-__all__ = ["radio", "meter"]
+try:
+    from . import sensor  # noqa: F401
+except ImportError:  # pragma: no cover - runtime optional dependency
+    sensor = None
+
+__all__ = ["radio", "meter", "sensor"]
 
 CONFIG_SCHEMA = cv.Schema({})
 
