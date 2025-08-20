@@ -1,13 +1,10 @@
 Version 5 based on Kuba's dirty [fork](https://github.com/IoTLabs-pl/esphome-components).
 
-> **_NOTE:_**  Component with CC1101 support is here:
-[version 4](https://github.com/SzczepanLeon/esphome-components/tree/version_4)
-[version 3](https://github.com/SzczepanLeon/esphome-components/tree/version_3)
-[version 2](https://github.com/SzczepanLeon/esphome-components/tree/version_2)
+This release adds support for the CC1101 transceiver alongside the SX1276.
+Required pins are CS, GDO0, GDO2 and RESET.
 
 
 # TODO:
-- Add backward support for CC1101
 - Add support for SX1262 (with limited frame length)
 - ...
 - Prepare packages for ready made boards (like UltimateReader) with displays, leds etc.
@@ -190,7 +187,22 @@ text_sensor:
     name: Electricity Meter alarms
 ```
 
-For SX1276 radio you need to configure SPI instance as usual in ESPHome and additionally specify reset pin and IRQ pin (as DIO1). Interrupts are triggered on non empty FIFO. 
+For SX1276 radio you need to configure SPI instance as usual in ESPHome and additionally specify reset pin and IRQ pin (as DIO1). Interrupts are triggered on non empty FIFO.
+
+For CC1101 radio you need to provide CS, GDO0, GDO2 and RESET pins. Example configuration:
+
+```yaml
+wmbus_radio:
+  radio_type: CC1101
+  cs_pin: GPIO18
+  gdo0_pin: GPIO4
+  gdo2_pin: GPIO5
+  reset_pin: GPIO14
+```
+
+## Limitations / Known issues
+
+- Only T1 and C1 WMBus link modes are currently supported.
 
 In order to pull latest wmbusmeters code run:
 ```bash
