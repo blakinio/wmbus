@@ -39,6 +39,7 @@ esphome:
 
 external_components:
   - source: github://SzczepanLeon/esphome-components@main
+    components: [wmbus]  # provides wmbus_radio and wmbus_meter
 
 esp32:
   board: heltec_wifi_lora_32_V2
