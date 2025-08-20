@@ -16,7 +16,11 @@ from esphome.components.mqtt import (
 )
 
 from ..wmbus_radio import RadioComponent
-from ...wmbus_common import validate_driver
+
+
+def validate_driver(value):
+    from ...wmbus_common import validate_driver as _validate_driver
+    return _validate_driver(value)
 
 CONF_METER_ID = "meter_id"
 CONF_RADIO_ID = "radio_id"
