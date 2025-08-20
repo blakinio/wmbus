@@ -157,7 +157,6 @@ def _import_meter(with_common: bool) -> None:
         sys.modules.update(original_modules)
 
 
-def test_wmbus_meter_requires_wmbus_common():
+def test_wmbus_meter_imports_without_wmbus_common():
     _import_meter(True)
-    with pytest.raises(ModuleNotFoundError):
-        _import_meter(False)
+    _import_meter(False)
