@@ -3,9 +3,9 @@ import sys
 
 CODEOWNERS = ["@SzczepanLeon", "@kubasaw"]
 
-# Ensure radio and meter components are available when referencing
+# Ensure radio, meter and common components are available when referencing
 # this package from ESPHome's external_components section.
-DEPENDENCIES = ["wmbus_radio", "wmbus_meter"]
+DEPENDENCIES = ["wmbus_radio", "wmbus_meter", "wmbus_common"]
 
 # Re-export modules so users can access them via the wmbus namespace.
 try:
@@ -18,18 +18,26 @@ try:
 except ImportError:  # pragma: no cover - runtime optional dependency
     meter = None
 
+try:
+    from .. import wmbus_common  # noqa: F401
+except ImportError:  # pragma: no cover - runtime optional dependency
+    wmbus_common = None
+
 if radio is not None:
     sys.modules.setdefault("esphome.components.wmbus_radio", radio)
 
 if meter is not None:
     sys.modules.setdefault("esphome.components.wmbus_meter", meter)
 
+if wmbus_common is not None:
+    sys.modules.setdefault("esphome.components.wmbus_common", wmbus_common)
+
 try:
     from . import sensor  # noqa: F401
 except ImportError:  # pragma: no cover - runtime optional dependency
     sensor = None
 
-__all__ = ["radio", "meter", "sensor"]
+__all__ = ["radio", "meter", "sensor", "wmbus_common"]
 
 CONFIG_SCHEMA = cv.Schema({})
 
