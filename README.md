@@ -5,7 +5,10 @@ Required pins are CS, GDO0, GDO2 and RESET.
 
 The `wmbus` package itself is only a small namespace wrapper that exposes the
 actual components `wmbus_radio` and `wmbus_meter`. It can be referenced from
-ESPHome's `external_components` section to make both components available.
+ESPHome's `external_components` section via `components: [wmbus]` to make both
+components available. Once the dependency fix is in place, the sensor platform
+`wmbus` becomes an alias for `wmbus_meter`, so sensors can be defined using
+`platform: wmbus`.
 
 ## Minimal configuration
 
@@ -22,6 +25,23 @@ wmbus_radio:
   cs_pin: GPIO18
   reset_pin: GPIO14
   irq_pin: GPIO35
+```
+
+### Example sensor configuration
+
+When defining sensors for a meter you can use the `wmbus` alias:
+
+```yaml
+wmbus_meter:
+  - id: electricity_meter
+    meter_id: 0x0101010101
+    type: amiplus
+
+sensor:
+  - platform: wmbus
+    parent_id: electricity_meter
+    field: total_energy_consumption_kwh
+    name: Electricity Usage
 ```
 
 
