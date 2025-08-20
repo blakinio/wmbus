@@ -7,7 +7,6 @@ Version 5 based on Kuba's dirty [fork](https://github.com/IoTLabs-pl/esphome-com
 
 
 # TODO:
-- Add backward support for CC1101
 - Add support for SX1262 (with limited frame length)
 - ...
 - Prepare packages for ready made boards (like UltimateReader) with displays, leds etc.
@@ -19,6 +18,7 @@ Version 5 based on Kuba's dirty [fork](https://github.com/IoTLabs-pl/esphome-com
 - Refactor 3out6 decoder
 - Migrate to esp-idf and drop Arduino!
 - Add support for SX1276
+- Add backward support for CC1101
 - Run receiver in separate task
 - Drop all non wmbus related components from rf code part
 - Allow to specify ASCII decription key
