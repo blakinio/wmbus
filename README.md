@@ -3,6 +3,27 @@ Version 5 based on Kuba's dirty [fork](https://github.com/IoTLabs-pl/esphome-com
 This release adds support for the CC1101 transceiver alongside the SX1276.
 Required pins are CS, GDO0, GDO2 and RESET.
 
+The `wmbus` package itself is only a small namespace wrapper that exposes the
+actual components `wmbus_radio` and `wmbus_meter`. It can be referenced from
+ESPHome's `external_components` section to make both components available.
+
+## Minimal configuration
+
+Below is a minimal example showing how to configure `wmbus_radio` with the
+required pins and `radio_type`:
+
+```yaml
+external_components:
+  - source: github://SzczepanLeon/esphome-components@main
+    components: [wmbus]
+
+wmbus_radio:
+  radio_type: SX1276
+  cs_pin: GPIO18
+  reset_pin: GPIO14
+  irq_pin: GPIO35
+```
+
 
 # TODO:
 - Add support for SX1262 (with limited frame length)
