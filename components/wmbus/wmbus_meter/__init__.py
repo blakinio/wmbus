@@ -19,7 +19,12 @@ from ..wmbus_radio import RadioComponent
 
 
 def validate_driver(value):
-    from ...wmbus_common import validate_driver as _validate_driver
+    try:
+        from ...wmbus_common import validate_driver as _validate_driver
+    except ModuleNotFoundError as e:
+        raise ModuleNotFoundError(
+            "Komponent wmbus_common jest wymagany – dodaj go w sekcji external_components"
+        ) from e
     return _validate_driver(value)
 
 CONF_METER_ID = "meter_id"
