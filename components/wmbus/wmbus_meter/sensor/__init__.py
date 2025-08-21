@@ -4,7 +4,7 @@ from esphome.const import CONF_UNIT_OF_MEASUREMENT
 
 from .. import wmbus_meter_ns
 from ..base_sensor import BASE_SCHEMA, register_meter, BaseSensor, CONF_FIELD
-from ....wmbus_common.units import get_human_readable_unit
+from ...wmbus_common.units import get_human_readable_unit
 
 
 RegularSensor = wmbus_meter_ns.class_("Sensor", BaseSensor, sensor.Sensor)

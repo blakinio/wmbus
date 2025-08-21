@@ -133,9 +133,9 @@ def _import_meter(with_common: bool) -> None:
         sys.modules["components.wmbus.wmbus_radio"] = wmbus_radio
 
         if with_common:
-            wmbus_common = types.ModuleType("components.wmbus_common")
+            wmbus_common = types.ModuleType("components.wmbus.wmbus_common")
             wmbus_common.validate_driver = lambda *_a, **_k: None
-            sys.modules["components.wmbus_common"] = wmbus_common
+            sys.modules["components.wmbus.wmbus_common"] = wmbus_common
             sys.modules["esphome.components.wmbus_common"] = wmbus_common
 
         meter_path = (

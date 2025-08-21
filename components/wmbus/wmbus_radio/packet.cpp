@@ -2,7 +2,7 @@
 
 #include <ctime>
 
-#include "esphome/components/wmbus_common/meters.h"
+#include "esphome/components/wmbus/wmbus_common/meters.h"
 #include "esphome/core/helpers.h"
 
 #include "decode3of6.h"

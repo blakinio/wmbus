@@ -3,9 +3,12 @@ import sys
 
 CODEOWNERS = ["@SzczepanLeon", "@kubasaw"]
 
-# Ensure radio, meter and common components are available when referencing
-# this package from ESPHome's external_components section.
-DEPENDENCIES = ["wmbus_radio", "wmbus_meter", "wmbus_common"]
+# Ensure radio and meter components are available when referencing this
+# package from ESPHome's external_components section. The shared
+# `wmbus_common` module now lives inside this package, so it is included
+# automatically and does not need to be declared as an external
+# dependency.
+DEPENDENCIES = ["wmbus_radio", "wmbus_meter"]
 
 # Re-export modules so users can access them via the wmbus namespace.
 try:
@@ -19,7 +22,7 @@ except ImportError:  # pragma: no cover - runtime optional dependency
     meter = None
 
 try:
-    from .. import wmbus_common  # noqa: F401
+    from . import wmbus_common  # noqa: F401
 except ImportError:  # pragma: no cover - runtime optional dependency
     wmbus_common = None
 

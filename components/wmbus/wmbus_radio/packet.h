@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "esphome/components/wmbus_common/wmbus.h"
+#include "esphome/components/wmbus/wmbus_common/wmbus.h"
 #include "esphome/core/helpers.h"
 
 namespace esphome {
