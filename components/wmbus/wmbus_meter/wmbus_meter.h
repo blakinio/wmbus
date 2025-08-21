@@ -4,7 +4,7 @@
 
 #include "esphome/components/time/real_time_clock.h"
 
-#include "esphome/components/wmbus_common/meters.h"
+#include "esphome/components/wmbus/wmbus_common/meters.h"
 #include "esphome/components/wmbus_radio/component.h"
 
 namespace esphome {

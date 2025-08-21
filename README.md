@@ -83,7 +83,7 @@ esphome:
 
 external_components:
   - source: github://SzczepanLeon/esphome-components@main
-    components: [wmbus]  # provides wmbus_radio and wmbus_meter
+    components: [wmbus, wmbus_common]  # provides wmbus_radio, wmbus_meter and common code
 
 esp32:
   board: heltec_wifi_lora_32_V2
@@ -252,5 +252,5 @@ wmbus_radio:
 
 In order to pull latest wmbusmeters code run:
 ```bash
-git subtree pull --prefix components/wmbus_common https://github.com/wmbusmeters/wmbusmeters.git <REF> --squash
+git subtree pull --prefix components/wmbus/wmbus_common https://github.com/wmbusmeters/wmbusmeters.git <REF> --squash
 ```
