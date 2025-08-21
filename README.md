@@ -10,6 +10,9 @@ components available. Once the dependency fix is in place, the sensor platform
 `wmbus` becomes an alias for `wmbus_meter`, so sensors can be defined using
 `platform: wmbus`.
 
+Make sure to also include the `wmbus_common` component in your
+`external_components` section.
+
 ## Minimal configuration
 
 Below is a minimal example showing how to configure `wmbus_radio` with the
