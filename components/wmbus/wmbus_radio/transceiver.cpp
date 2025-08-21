@@ -3,6 +3,7 @@
 #include "esphome/core/log.h"
 
 #include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
 namespace esphome {
 namespace wmbus_radio {
@@ -33,6 +34,16 @@ void RadioTransceiver::set_irq_pin(InternalGPIOPin *irq_pin) {
   this->irq_pin_ = irq_pin;
 }
 
+void RadioTransceiver::attach_data_interrupt(void (*func)(TaskHandle_t *),
+                                             TaskHandle_t *arg) {
+  if (this->data_pin_ == nullptr)
+    return;
+
+  auto *pin = static_cast<InternalGPIOPin *>(this->data_pin_);
+  pin->setup();
+  pin->attach_interrupt(func, arg, gpio::INTERRUPT_RISING_EDGE);
+}
+
 void RadioTransceiver::reset() {
   this->reset_pin_->digital_write(0);
   delay(5);
@@ -44,6 +55,11 @@ void RadioTransceiver::common_setup() {
   this->reset_pin_->setup();
   this->irq_pin_->setup();
   this->spi_setup();
+}
+
+void RadioTransceiver::spi_setup() {
+  if (this->delegate_ != nullptr)
+    this->delegate_->setup();
 }
 
 uint8_t RadioTransceiver::spi_transaction(uint8_t operation, uint8_t address,
