@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <string>
 
 #include "freertos/FreeRTOS.h"
 
@@ -16,9 +17,15 @@
 namespace esphome {
 namespace wmbus_radio {
 
-class Radio : public Component {
+class Radio : public Component, public spi::SPIDevice {
 public:
-  void set_radio(RadioTransceiver *radio) { this->radio = radio; };
+  void set_radio(RadioTransceiver *radio) { this->radio = radio; }
+  void set_radio_type(const std::string &radio_type);
+  void set_reset_pin(GPIOPin *pin);
+  void set_data_pin(GPIOPin *pin);
+  void set_sync_pin(GPIOPin *pin);
+  void set_irq_pin(GPIOPin *pin);
+  void set_frequency(float frequency);
 
   void setup() override;
   void loop() override;

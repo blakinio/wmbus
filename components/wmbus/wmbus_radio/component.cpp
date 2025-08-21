@@ -1,4 +1,6 @@
 #include "component.h"
+#include "transceiver_cc1101.h"
+#include "transceiver_sx1276.h"
 
 #include "freertos/queue.h"
 #include "freertos/task.h"
@@ -19,6 +21,46 @@ namespace esphome {
 namespace wmbus_radio {
 static const char *TAG = "wmbus";
 
+void Radio::set_radio_type(const std::string &radio_type) {
+  if (this->radio != nullptr) {
+    delete this->radio;
+    this->radio = nullptr;
+  }
+  if (radio_type == "CC1101") {
+    this->radio = new CC1101();
+  } else if (radio_type == "SX1276") {
+    this->radio = new SX1276();
+  }
+  if (this->radio != nullptr) {
+    this->radio->set_spi_delegate(this);
+  }
+}
+
+void Radio::set_reset_pin(GPIOPin *pin) {
+  if (this->radio != nullptr)
+    this->radio->set_reset_pin(pin);
+}
+
+void Radio::set_data_pin(GPIOPin *pin) {
+  if (this->radio != nullptr)
+    this->radio->set_data_pin(pin);
+}
+
+void Radio::set_sync_pin(GPIOPin *pin) {
+  if (this->radio != nullptr)
+    this->radio->set_sync_pin(pin);
+}
+
+void Radio::set_irq_pin(GPIOPin *pin) {
+  if (this->radio != nullptr)
+    this->radio->set_irq_pin(pin);
+}
+
+void Radio::set_frequency(float frequency) {
+  if (this->radio != nullptr)
+    this->radio->set_frequency(frequency);
+}
+
 void Radio::setup() {
   ASSERT_SETUP(this->packet_queue_ = xQueueCreate(3, sizeof(Packet *)));
 
@@ -27,8 +69,11 @@ void Radio::setup() {
 
   ESP_LOGI(TAG, "Receiver task created [%p]", this->receiver_task_handle_);
 
-  this->radio->attach_data_interrupt(Radio::wakeup_receiver_task_from_isr,
-                                     &(this->receiver_task_handle_));
+  if (this->radio != nullptr) {
+    this->radio->setup();
+    this->radio->attach_data_interrupt(Radio::wakeup_receiver_task_from_isr,
+                                       &(this->receiver_task_handle_));
+  }
 }
 
 void Radio::loop() {
