@@ -217,15 +217,26 @@ void CC1101::setup() {
   // Configure all RF settings for wMBus
   setup_rf_settings_();
   
-  // Set frequency (will be overridden by frequency parameter if provided)
-  const uint32_t frequency = 868950000; // Default: 868.95 MHz for EU
-  uint32_t frf = ((uint64_t)frequency * (1 << 16)) / F_OSC;
+  // Set radio frequency
+  const uint32_t frequency_hz =
+      static_cast<uint32_t>(this->frequency_mhz_ * 1e6f);
+  uint32_t frf = ((uint64_t) frequency_hz * (1 << 16)) / F_OSC;
   write_register_(CC1101_FREQ2, BYTE(frf, 2));
   write_register_(CC1101_FREQ1, BYTE(frf, 1));
   write_register_(CC1101_FREQ0, BYTE(frf, 0));
-  
-  ESP_LOGD(TAG, "Frequency set to %u Hz [0x%02X%02X%02X]", 
-           frequency, BYTE(frf, 2), BYTE(frf, 1), BYTE(frf, 0));
+
+  // Read back frequency registers to log the actual frequency set
+  uint8_t freq2 = read_register_(CC1101_FREQ2);
+  uint8_t freq1 = read_register_(CC1101_FREQ1);
+  uint8_t freq0 = read_register_(CC1101_FREQ0);
+  uint32_t frf_actual =
+      (static_cast<uint32_t>(freq2) << 16) |
+      (static_cast<uint32_t>(freq1) << 8) |
+      freq0;
+  uint32_t frequency_actual =
+      ((uint64_t) frf_actual * F_OSC) >> 16;
+  ESP_LOGD(TAG, "Frequency set to %u Hz [0x%02X%02X%02X]",
+           frequency_actual, freq2, freq1, freq0);
   
   // Calibrate frequency synthesizer
   strobe_(CC1101_SCAL);
